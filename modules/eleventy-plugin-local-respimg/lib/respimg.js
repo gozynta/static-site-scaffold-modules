@@ -112,7 +112,16 @@ function respimgSetup(userConfig = {}) {
             ensureDirSync(path.join(config.folders.output, path.dirname(src)));
 
             const type = await FileType.fromBuffer(file);
-            const size = imageSize(file);
+
+            var size;
+            if ($(image).attr('width') && $(image).attr('height')){
+              size = {
+                width: $(image).attr('width'),
+                height: $(image).attr('height')
+              };
+            }else{
+              size = imageSize(file);
+            }
 
             if (config.images.gifToVideo && type.mime === 'image/gif') {
               await generateVideo(src, config);
